@@ -1,5 +1,5 @@
 {
-  "name": "nuxt-app",
+  "name": "url-shortener-nuxt",
   "private": true,
   "type": "module",
   "scripts": {
