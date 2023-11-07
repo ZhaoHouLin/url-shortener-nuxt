@@ -2,8 +2,8 @@ import mongoose from "mongoose"
 
 export default async (_nitroApp) => {
 
-  const username = encodeURIComponent('zz')
-  const password = encodeURIComponent('12345678')
+  const username = encodeURIComponent('ZZ')
+  const password = encodeURIComponent('1qaz@WSX')
   const database = 'zz-url'
 
   try {

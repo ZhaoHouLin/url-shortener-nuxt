@@ -14,9 +14,8 @@ const handleUrl = async () => {
       url: urlVal.value,
     },
   })
-  // console.log(data.value)
-
   store.storeFetchData(data.value)
+  urlVal.value = ""
 }
 </script>
 
@@ -27,7 +26,7 @@ const handleUrl = async () => {
   button.btn(@click='handleUrl') 產生
     LinkIcon
     h4(ref='link') 短網址  
-  //- button(@click='test') get
+
 </template>
 
 <style lang="stylus" scoped>

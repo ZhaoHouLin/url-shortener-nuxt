@@ -6,6 +6,11 @@ import ArrowBackIcon from "../components/icons/IconArrowBack.vue"
 const counter = useCounterStore()
 
 const config = useRuntimeConfig()
+
+if (process.server) {
+  console.log(config.public.apiUrl)
+}
+
 const clipboard = () => {
   navigator.clipboard.writeText(`${config.public.apiUrl}${counter.urlCode}`)
 }
