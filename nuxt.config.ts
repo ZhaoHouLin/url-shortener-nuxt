@@ -24,7 +24,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     token: "",
     public: {
-      apiUrl: "https://url-shortener-nuxt.vercel.app/",
+      apiUrl: "https://zz-url.vercel.app/",
     },
   },
 
