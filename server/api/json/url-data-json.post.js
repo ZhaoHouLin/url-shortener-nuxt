@@ -8,9 +8,6 @@ export default defineEventHandler(async (event) => {
     // info = JSON.parse(info)
     return info
   })
-  const { people, id } = getRouterParams(event)
-
-  console.log(people, id)
 
   const body = await readBody(event)
 
@@ -41,7 +38,7 @@ export default defineEventHandler(async (event) => {
     const code = randomCode(digits)
 
     let result = data.find((item) => {
-      console.log(code)
+      // console.log(code)
       return item["短網址代碼"] == code
     })
 

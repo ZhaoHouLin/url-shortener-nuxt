@@ -4,13 +4,24 @@ import { ref } from 'vue'
 export const useCounterStore = defineStore('counter', () => {
   const urlCode = ref('')
 
-  const storeFetchData = (code) => {
+  const urlList = reactive({ data: [] })
+
+  const storeUrlCode = (code) => {
     urlCode.value = code
   }
 
+  const getUrlList = async () => {
+    urlList.data = await $fetch("/api/url-list-xlsx", { method: "GET" })
+  }
+
+  const urlData = computed(() => urlList.data)
+
   return {
     urlCode,
-    storeFetchData
+    storeUrlCode,
+    urlList,
+    urlData,
+    getUrlList
   }
 
 })

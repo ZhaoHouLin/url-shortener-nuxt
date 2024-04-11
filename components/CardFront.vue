@@ -1,30 +1,48 @@
 <script setup>
 import { ref } from "vue"
-// import { useFetch } from "../api"
 import LinkIcon from "../components/icons/IconLink.vue"
 
-const store = useCounterStore()
+const counter = useCounterStore()
 
 const urlVal = ref("")
 
-const handleUrl = async () => {
-  const { data, pending, error, refresh } = await useFetch("/api/url-data", {
+const handleUrlJson = async () => {
+  const code = await $fetch("/api/url-data-json", {
     method: "POST",
     body: {
       url: urlVal.value,
     },
   })
-  // console.log(data.value)
 
-  store.storeFetchData(data.value)
+  urlVal.value = ""
+
+  counter.getUrlCode(code)
 }
+
+const handleUrlXlsx = async () => {
+  const code = await $fetch("/api/url-data-xlsx", {
+    method: "POST",
+    body: {
+      url: urlVal.value,
+    },
+  })
+
+  urlVal.value = ""
+
+  counter.storeUrlCode(code)
+  await counter.getUrlList()
+}
+
+onMounted(() => {
+  // getUrlList()
+})
 </script>
 
 <template lang="pug">
 .front 
   .origin-url
-    input(type="text" v-model="urlVal" placeholder="請輸入要縮短的網址")
-  button.btn(@click='handleUrl') 產生
+    input(type="text" v-model.trim="urlVal" placeholder="請輸入要縮短的網址")
+  button.btn(@click='handleUrlXlsx') 產生
     LinkIcon
     h4(ref='link') 短網址  
   //- button(@click='test') get
