@@ -1,8 +1,6 @@
 import * as fs from 'node:fs'
-import urlModel from '../models/urlData.model'
 
 export default defineEventHandler(async (event) => {
-<<<<<<< HEAD:server/api/json/url-data-json.post.js
   const filePath = '@/../Data/url-data.json'
   let json = fs.readFileSync(filePath, 'utf8', (err, data) => {
     if (err) throw err
@@ -10,23 +8,23 @@ export default defineEventHandler(async (event) => {
     // info = JSON.parse(info)
     return info
   })
-=======
->>>>>>> 39cf9ae06b0b28ca444100d2bd44bd2f8ed71626:server/api/url-data.post.js
+  const { people, id } = getRouterParams(event)
+
+  console.log(people, id)
 
   const body = await readBody(event)
 
-  const { url } = body
+  let jsonParse = JSON.parse(json)
 
+  const originUrl = body.url
 
-  const urlData = await urlModel.find()
-
-  const urlTempData = {
-    "url": '',
-    "code": ''
+  const urlData = {
+    "原網址": '',
+    "短網址代碼": ''
   }
 
-  const repeatData = urlData.find((item, idx, arr) => {
-    return item["url"] == url
+  const repeat = jsonParse.find((item, idx, arr) => {
+    return item["原網址"] == originUrl
   })
 
   //  隨機取得由大小寫及數字組成的亂數
@@ -39,15 +37,12 @@ export default defineEventHandler(async (event) => {
   }
 
   const checkRepeatCode = (digits, data) => {
+    // console.log('data', data)
     const code = randomCode(digits)
 
     let result = data.find((item) => {
-<<<<<<< HEAD:server/api/json/url-data-json.post.js
-      // console.log(code)
+      console.log(code)
       return item["短網址代碼"] == code
-=======
-      return item["code"] == code
->>>>>>> 39cf9ae06b0b28ca444100d2bd44bd2f8ed71626:server/api/url-data.post.js
     })
 
     if (result == undefined) {
@@ -57,15 +52,23 @@ export default defineEventHandler(async (event) => {
     }
   }
 
-  if (repeatData == undefined) {
-    urlTempData["url"] = url
-    urlTempData["code"] = checkRepeatCode(5, urlData)
-    const newUrlData = new urlModel(urlTempData)
-    await newUrlData.save()
+
+  if (repeat == undefined) {
+    urlData["原網址"] = originUrl
+    urlData["短網址代碼"] = checkRepeatCode(5, jsonParse)
+    jsonParse.push(urlData)
   } else {
-    urlTempData["code"] = repeatData["code"]
+    urlData["短網址代碼"] = repeat["短網址代碼"]
   }
 
+  let result = JSON.stringify(jsonParse)
 
-  return urlTempData.code
+  fs.writeFile(filePath, result, (err) => {
+    if (err) {
+      console.error(err)
+    }
+    console.log('Successful')
+  })
+
+  return urlData["短網址代碼"]
 })
