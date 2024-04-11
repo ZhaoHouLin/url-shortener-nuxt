@@ -26,11 +26,9 @@ const handleUrlXlsx = async () => {
       url: urlVal.value,
     },
   })
+  // console.log(data.value)
 
-  urlVal.value = ""
-
-  counter.storeUrlCode(code)
-  await counter.getUrlList()
+  store.storeFetchData(data.value)
 }
 
 onMounted(() => {
@@ -45,7 +43,7 @@ onMounted(() => {
   button.btn(@click='handleUrlXlsx') 產生
     LinkIcon
     h4(ref='link') 短網址  
-  //- button(@click='test') get
+
 </template>
 
 <style lang="stylus" scoped>

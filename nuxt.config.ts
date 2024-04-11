@@ -25,7 +25,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     token: "",
     public: {
-      apiUrl: "",
+      apiUrl: "https://zz-url.vercel.app/",
     },
   },
 
