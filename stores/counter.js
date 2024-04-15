@@ -8,6 +8,7 @@ export const useCounterStore = defineStore('counter', () => {
 
   const storeUrlCode = (code) => {
     urlCode.value = code
+    getUrlList()
   }
 
   const getUrlList = async () => {

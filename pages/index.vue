@@ -6,6 +6,8 @@ const counter = useCounterStore()
 
 const urlList = reactive({ data: [] })
 
+const urlText = ref([])
+
 const randomColor = () => {
   // 生成三個隨機的RGB值
   const r = Math.floor(Math.random() * 256)
@@ -21,20 +23,18 @@ const randomFontSize = () => {
   return `${fz}px`
 }
 
-onMounted(async () => {
-  await counter.getUrlList()
-  const urlText = document.querySelectorAll(".url-text")
-  gsap.registerPlugin(TextPlugin)
-  const tl = gsap.timeline()
-
-  urlText.forEach((text) => {
-    console.log(Math.random(-1, 1))
+const textAnimation = () => {
+  urlText.value.forEach((text) => {
     // 隨機生成單詞的起始位置
-    const startX = ((Math.random() - 1) * window.innerWidth) / 2
-    const startY = ((Math.random() - 1) * window.innerHeight) / 2
+    // const startX = ((Math.random() - 1) * window.innerWidth) / 2
+    // const startY = ((Math.random() - 1) * window.innerHeight) / 2
+    const startX = 0
+    const startY = 0
+
     // 定義單詞的結束位置
-    const endX = ((Math.random() - 1) * window.innerWidth) / 2
-    const endY = ((Math.random() - 1) * window.innerHeight) / 2
+    const endX = ((Math.random() * 2 - 1) * window.innerWidth) / 2
+    const endY = ((Math.random() * 2 - 1) * window.innerHeight) / 2
+
     gsap.fromTo(
       text,
       {
@@ -55,7 +55,23 @@ onMounted(async () => {
       }
     )
   })
+}
 
+watch(
+  () => counter.urlData,
+  (newValue, oldValue) => {
+    // newValue === oldValue
+    textAnimation()
+  },
+  { deep: true }
+)
+
+onMounted(async () => {
+  await counter.getUrlList()
+  gsap.registerPlugin(TextPlugin)
+  textAnimation()
+
+  const tl = gsap.timeline()
   gsap.defaults({ ease: "linear" })
 
   const btn = document.querySelector(".btn")
@@ -84,7 +100,7 @@ onMounted(async () => {
 
 <template lang="pug">
 .content
-  a(v-for="(data,idx) in counter.urlData"  :class="`url-text url-text-${idx+1}`" :href='data["原網址"]')
+  a(v-for="(data,idx) in counter.urlData"  :class="`url-text url-text-${idx+1}`" :href='data["原網址"]' ref='urlText')
     .url {{ data["原網址"] }} 
     .code {{ data["短網址代碼"] }}
 
@@ -103,6 +119,7 @@ onMounted(async () => {
   flex(,,column)
   overflow hidden
   .url-text
+    text-align center
     cursor pointer
     text-decoration none
     size(auto)

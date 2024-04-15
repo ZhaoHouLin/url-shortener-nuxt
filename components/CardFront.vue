@@ -7,33 +7,48 @@ const counter = useCounterStore()
 const urlVal = ref("")
 
 const handleUrlJson = async () => {
-  const code = await $fetch("/api/url-data-json", {
-    method: "POST",
-    body: {
-      url: urlVal.value,
-    },
-  })
+  if (isValidUrl(urlVal.value)) {
+    const code = await $fetch("/api/url-data-json", {
+      method: "POST",
+      body: {
+        url: urlVal.value,
+      },
+    })
 
-  urlVal.value = ""
+    urlVal.value = ""
 
-  counter.getUrlCode(code)
+    counter.storeUrlCode(code)
+  }
 }
 
 const handleUrlXlsx = async () => {
-  const code = await $fetch("/api/url-data-xlsx", {
-    method: "POST",
-    body: {
-      url: urlVal.value,
-    },
-  })
-  // console.log(data.value)
+  if (isValidUrl(urlVal.value)) {
+    const code = await $fetch("/api/url-data-xlsx", {
+      method: "POST",
+      body: {
+        url: urlVal.value,
+      },
+    })
+    urlVal.value = ""
 
-  store.storeFetchData(data.value)
+    counter.storeUrlCode(code)
+  } else {
+    counter.storeUrlCode("請重新輸入")
+  }
 }
 
-onMounted(() => {
-  // getUrlList()
-})
+// 驗證網址格式
+const isValidUrl = (str) => {
+  const pattern = new RegExp(
+    "^([a-zA-Z]+:\\/\\/)?" + // protocol
+      "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
+      "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR IP (v4) address
+      "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
+      "(\\?[;&a-z\\d%_.~+=-]*)?", // query string // fragment locator
+    "i"
+  )
+  return pattern.test(str)
+}
 </script>
 
 <template lang="pug">
@@ -43,7 +58,6 @@ onMounted(() => {
   button.btn(@click='handleUrlXlsx') 產生
     LinkIcon
     h4(ref='link') 短網址  
-
 </template>
 
 <style lang="stylus" scoped>

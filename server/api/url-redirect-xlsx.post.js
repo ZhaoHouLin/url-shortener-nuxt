@@ -15,25 +15,14 @@ export default defineEventHandler(async (event) => {
   const jsonData = XLSX.utils.sheet_to_json(worksheet)
 
   const body = await readBody(event)
-
+  console.log(body)
   let redirectUrl = ''
 
-  const filePath = '@/../Data/url-data.json'
-
-  console.log(body.code)
-
-
   if (body.code && body.code != 'undefined') {
-    // let json = fs.readFileSync(filePath, 'utf8', (err, data) => {
-    //   if (err) throw err
-    //   const info = data.toString()
-
-    //   return info
-    // })
-
     jsonData.map((item) => {
       if (item['短網址代碼'] == body.code) {
         // res.redirect(item['原網址'])
+        console.log(item['原網址'])
         redirectUrl = item['原網址']
       }
     })
