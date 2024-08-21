@@ -1,5 +1,4 @@
 import * as fs from 'node:fs'
-import urlModel from '../models/urlData.model'
 
 export default defineEventHandler(async (event) => {
 

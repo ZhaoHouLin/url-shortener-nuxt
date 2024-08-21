@@ -61,7 +61,7 @@ export default defineNuxtConfig({
       },
     ],
   ],
-  nitro: {
-    plugins: ["~/server/db/index.js"],
-  },
+  // nitro: {
+  //   plugins: ["~/server/db/index.js"],
+  // },
 })
