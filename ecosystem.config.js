@@ -1,8 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'url-shortener',
-      // name: 're-url', 網址呈現名稱
+      name: 're-url', //網址呈現名稱
       exec_mode: 'cluster',
       // instances: 'max',
       port: '3333',

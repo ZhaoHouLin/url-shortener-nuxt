@@ -9,6 +9,36 @@ export default defineNuxtConfig({
     head: {
       viewport: "width=500, initial-scale=1",
       title: "URL-Shortner",
+      meta: [
+        {
+          "http-equiv": "Content-Security-Policy",
+          content:
+            "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; frame-src 'none';",
+        },
+
+        {
+          "http-equiv": "Strict-Transport-Security",
+          content: "max-age=31536000; includeSubDomains; preload",
+        },
+        {
+          "http-equiv": "X-Content-Type-Options",
+          content: "nosniff",
+        },
+        {
+          "http-equiv": "Referrer-Policy",
+          content: "no-referrer",
+        },
+        {
+          name: "description",
+          content: "URL-Shortner",
+        },
+        { property: "og:title", content: "URL-Shortner" },
+        { property: "og:url", content: "" },
+        {
+          property: "og:description",
+          content: "URL-Shortner",
+        },
+      ],
     },
   },
   build: {
@@ -22,12 +52,12 @@ export default defineNuxtConfig({
           ]
         : ["@juggle/resize-observer"],
   },
-  runtimeConfig: {
-    token: "",
-    public: {
-      apiUrl: "https://zz-url.vercel.app/",
-    },
-  },
+  // runtimeConfig: {
+  //   token: "",
+  //   public: {
+  //     apiUrl: "https://zz-url.vercel.app/",
+  //   },
+  // },
 
   vite: {
     // define: {
