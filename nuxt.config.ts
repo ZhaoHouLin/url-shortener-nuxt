@@ -52,12 +52,12 @@ export default defineNuxtConfig({
           ]
         : ["@juggle/resize-observer"],
   },
-  // runtimeConfig: {
-  //   token: "",
-  //   public: {
-  //     apiUrl: "https://zz-url.vercel.app/",
-  //   },
-  // },
+  runtimeConfig: {
+    token: "",
+    public: {
+      apiUrl: "https://re-url.cdc.gov.tw/",
+    },
+  },
 
   vite: {
     // define: {
